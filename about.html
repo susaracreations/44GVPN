@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - 44g store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="templatemo-606-string-master.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">44g</div>
+        44g store
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="free-configs.html">Free</a></li>
+        <li><a href="index.html#features">Features</a></li>
+      </ul>
+      <a href="index.html#shop" class="nav-cta"><span>Shop Now</span></a>
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <!-- About Hero Section -->
+  <section class="hero" style="min-height: 60vh;">
+    <div class="hero-container">
+      <div class="hero-content" style="text-align: center; max-width: 800px; margin: 0 auto; grid-column: 1 / -1;">
+        <div class="hero-badge">
+          <span>●</span> Our Mission
+        </div>
+        <h1>Connecting Sri Lanka with <span class="highlight">Fast</span> & <span class="highlight">Unlimited</span> Internet</h1>
+        <p class="hero-description" style="max-width: 600px; margin: 0 auto;">
+          We started 44g store with a simple goal: to provide cheap, reliable, and truly unlimited internet access to everyone in Sri Lanka, powered by the best V2Ray technology.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section (reusing features section style) -->
+  <section class="features" id="why-choose-us">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-label">Our Commitment</div>
+        <h2 class="section-title">Why 44g Store is Different</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11.5 2a8.5 8.5 0 0 1 0 17v3l-3-3-3 3v-3a8.5 8.5 0 0 1 6-16z"/>
+              <circle cx="11.5" cy="10.5" r="3"/>
+            </svg>
+          </div>
+          <h3>SG Servers for Low Ping</h3>
+          <p>We exclusively use high-performance servers in Singapore to guarantee the lowest possible latency for gaming, video calls, and fast browsing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <h3>Truly Unlimited Data</h3>
+          <p>No hidden caps, no speed throttling. We believe in providing truly unlimited internet so you can stream, download, and browse without worry.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+            </svg>
+          </div>
+          <h3>Customer-First Support</h3>
+          <p>Our team is based in Sri Lanka and is dedicated to providing fast, friendly, and effective support whenever you need it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section (reusing instructors section style) -->
+  <section class="instructors" style="background: var(--bg-dark);">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-label">Our Team</div>
+        <h2 class="section-title">Meet the Founders</h2>
+        <p class="section-description">
+          We're a small team passionate about technology and digital freedom.
+        </p>
+      </div>
+      <div id="team-grid" class="instructors-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: 800px; margin: 0 auto;">
+        <!-- Team members will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <span>© 2024 44g store. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Firebase Configuration -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoYwLz6AJRmXZ15e6T0pd13uLEl0Hgd28",
+    authDomain: "susara-5d073.firebaseapp.com",
+    databaseURL: "https://susara-5d073-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "susara-5d073",
+    storageBucket: "susara-5d073.firebasestorage.app",
+    messagingSenderId: "260387813251",
+    appId: "1:260387813251:web:e1cc7077c43a0b592728b6",
+    measurementId: "G-WQWGHL2WSY"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const db = firebase.database();
+    const teamGrid = document.getElementById('team-grid');
+    const teamRef = db.ref('team');
+
+    teamRef.on('value', (snapshot) => {
+        teamGrid.innerHTML = '';
+        const team = snapshot.val();
+        if (team) {
+            Object.keys(team).forEach(key => {
+                const member = team[key];
+                const memberCardHTML = `
+                    <div class="instructor-card">
+                      <div class="instructor-image">
+                        <img src="${member.imageUrl}" alt="${member.name}">
+                      </div>
+                      <div class="instructor-name">${member.name}</div>
+                      <div class="instructor-role">${member.role}</div>
+                      <p class="instructor-bio">${member.bio}</p>
+                    </div>`;
+                teamGrid.innerHTML += memberCardHTML;
+            });
+        }
+    });
+});
+</script>
+
+<script src="templatemo-606-string-scripts.js"></script>
+
+</body>
+</html>

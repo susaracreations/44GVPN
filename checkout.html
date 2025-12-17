@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - 44g store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="templatemo-606-string-master.css">
+  <style>
+    .checkout-page {
+      padding: 8rem 2rem 4rem;
+    }
+    .checkout-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .order-summary, .customer-details {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .order-summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .order-summary-item:last-child {
+      border-bottom: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">44g</div>
+        44g store
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="free-configs.html">Free</a></li>
+        <li><a href="index.html#features">Features</a></li>
+      </ul>
+      <a href="index.html#shop" class="nav-cta"><span>View Plans</span></a>
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <!-- Checkout Section -->
+  <section class="checkout-page">
+    <div class="checkout-container">
+      <div class="order-summary">
+        <h2 class="section-title" style="font-size: 2rem; text-align: left; margin-bottom: 1.5rem;">Order Summary</h2>
+        <div id="order-summary-content">
+          <p style="color: var(--text-secondary);">Loading your order...</p>
+        </div>
+      </div>
+
+      <div class="customer-details">
+        <h2 class="section-title" style="font-size: 2rem; text-align: left; margin-bottom: 1.5rem;">Your Details</h2>
+        <form id="checkout-form">
+          <div class="form-group">
+            <label for="customer-name">Full Name</label>
+            <input type="text" id="customer-name" required>
+          </div>
+          <div class="form-group">
+            <label for="customer-email">Email Address</label>
+            <input type="email" id="customer-email" required>
+          </div>
+          <div class="form-group">
+            <label for="customer-phone">Phone Number (Optional)</label>
+            <input type="tel" id="customer-phone">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Place Order via WhatsApp →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <span>© 2024 44g store. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Firebase Configuration -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoYwLz6AJRmXZ15e6T0pd13uLEl0Hgd28",
+    authDomain: "susara-5d073.firebaseapp.com",
+    databaseURL: "https://susara-5d073-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "susara-5d073",
+    storageBucket: "susara-5d073.firebasestorage.app",
+    messagingSenderId: "260387813251",
+    appId: "1:260387813251:web:e1cc7077c43a0b592728b6",
+    measurementId: "G-WQWGHL2WSY"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const db = firebase.database();
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id');
+    const summaryContainer = document.getElementById('order-summary-content');
+    const checkoutForm = document.getElementById('checkout-form');
+    let productDetails = null;
+    let whatsAppNumber = null;
+
+    if (!productId) {
+        summaryContainer.innerHTML = '<p style="color: var(--text-secondary);">No product selected. Please <a href="index.html#shop">return to the shop</a>.</p>';
+        return;
+    }
+
+    const productRef = db.ref('products/' + productId);
+    productRef.once('value', (snapshot) => {
+        productDetails = snapshot.val();
+        if (!productDetails) {
+            summaryContainer.innerHTML = '<p style="color: var(--text-secondary);">Invalid product. Please <a href="index.html#shop">return to the shop</a>.</p>';
+            return;
+        }
+
+        const summaryHTML = `
+            <div class="order-summary-item">
+                <span>${productDetails.name}</span>
+                <span>LKR ${productDetails.price.toLocaleString()}</span>
+            </div>
+            <div class="order-summary-item">
+                <span>Total</span>
+                <span>LKR ${productDetails.price.toLocaleString()}</span>
+            </div>
+        `;
+        summaryContainer.innerHTML = summaryHTML;
+    });
+
+    // Fetch WhatsApp number from settings
+    db.ref('settings/whatsappNumber').once('value', (snapshot) => {
+        if (snapshot.exists()) {
+            whatsAppNumber = snapshot.val();
+        } else {
+            console.error("WhatsApp number not set in admin panel!");
+        }
+    });
+
+    checkoutForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const submitButton = checkoutForm.querySelector('button[type="submit"]');
+
+        if (!productDetails || !whatsAppNumber) {
+            alert('Page is still loading. Please wait a moment.');
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Processing...';
+
+        const customerName = document.getElementById('customer-name').value;
+        const customerEmail = document.getElementById('customer-email').value;
+        const customerPhone = document.getElementById('customer-phone').value;
+
+        const orderId = `#A${Math.floor(10000 + Math.random() * 90000)}`;
+
+        const newOrder = {
+            orderId: orderId,
+            userEmail: customerEmail,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            plan: productDetails.name,
+            amount: productDetails.price,
+            status: 'pending',
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        // Save the order to Firebase
+        db.ref('orders').push(newOrder)
+            .then(() => {
+                // After saving, generate WhatsApp message
+                const billText = `
+*New V2Ray Order from 44g store*
+*Order ID:* ${orderId}
+-----------------------------------
+*Customer:* ${customerName}
+*Email:* ${customerEmail}
+*Phone:* ${customerPhone || 'Not provided'}
+-----------------------------------
+*Product:* ${productDetails.name}
+*Price:* LKR ${productDetails.price.toLocaleString()}
+-----------------------------------
+*TOTAL: LKR ${productDetails.price.toLocaleString()}*
+
+Please confirm my order.
+                `;
+
+                const whatsappUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(billText.trim())}`;
+                window.location.href = whatsappUrl;
+            })
+            .catch(error => {
+                console.error("Error saving order: ", error);
+                alert("Could not place order. Please try again.");
+                submitButton.disabled = false;
+                submitButton.textContent = 'Place Order via WhatsApp →';
+            });
+    });
+});
+</script>
+
+</body>
+</html>

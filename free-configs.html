@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free V2Ray Configs - 44g store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="templatemo-606-string-master.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">44g</div>
+        44g store
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="free-configs.html">Free</a></li>
+        <li><a href="index.html#testimonials">Reviews</a></li>
+      </ul>
+      <a href="index.html#shop" class="nav-cta"><span>Shop Now</span></a>
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <!-- Free Configs Section -->
+  <section class="pricing" id="free-configs">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-label">Try Our Service</div>
+        <h2 class="section-title">Free V2Ray Configs</h2>
+        <p class="section-description">
+          Enjoy our free V2Ray configs to test our speed and reliability. These are for trial purposes and may have speed or data limitations.
+        </p>
+      </div>
+      <div class="pricing-grid" id="free-configs-grid">
+        <!-- Free configs will be loaded here by JavaScript -->
+        <p style="color: var(--text-secondary); text-align: center;">Loading free configs...</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <span>© 2024 44g store. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Firebase Configuration -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoYwLz6AJRmXZ15e6T0pd13uLEl0Hgd28",
+    authDomain: "susara-5d073.firebaseapp.com",
+    databaseURL: "https://susara-5d073-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "susara-5d073",
+    storageBucket: "susara-5d073.firebasestorage.app",
+    messagingSenderId: "260387813251",
+    appId: "1:260387813251:web:e1cc7077c43a0b592728b6",
+    measurementId: "G-WQWGHL2WSY"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const db = firebase.database();
+    const freeConfigsGrid = document.getElementById('free-configs-grid');
+
+    const freeConfigsRef = db.ref('freeConfigs').orderByChild('position');
+    freeConfigsRef.on('value', (snapshot) => {
+        freeConfigsGrid.innerHTML = '';
+        const configs = [];
+        snapshot.forEach(child => {
+            configs.push(child.val());
+        });
+
+        if (configs.length > 0) {
+            configs.forEach(config => {
+                const configCardHTML = `
+                    <div class="pricing-card">
+                      <div class="pricing-name">${config.name}</div>
+                      <p class="pricing-description" style="min-height: 60px;">${config.description}</p>
+                      <button class="pricing-btn copy-btn" data-config-url="${config.configUrl}">Copy Config URL</button>
+                    </div>`;
+                freeConfigsGrid.innerHTML += configCardHTML;
+            });
+        } else {
+            freeConfigsGrid.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No free configs available right now. Please check back later.</p>';
+        }
+    });
+
+    freeConfigsGrid.addEventListener('click', (e) => {
+        if (e.target.classList.contains('copy-btn')) {
+            const configUrl = e.target.dataset.configUrl;
+            navigator.clipboard.writeText(configUrl).then(() => {
+                const originalText = e.target.textContent;
+                e.target.textContent = 'Copied!';
+                setTimeout(() => {
+                    e.target.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    });
+});
+</script>
+
+<script src="templatemo-606-string-scripts.js"></script>
+
+</body>
+</html>

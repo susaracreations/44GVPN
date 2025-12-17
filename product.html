@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V2Ray Plan - 44g store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="templatemo-606-string-master.css">
+  <style>
+    .product-page {
+      padding: 8rem 2rem 4rem;
+    }
+    .product-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .product-image-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .product-image-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+    .product-details h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .product-details .highlight {
+      color: var(--accent);
+    }
+    .product-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .product-price .period {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .product-description {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+    .product-features {
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+    .product-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      color: var(--text-secondary);
+    }
+    .product-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+    }
+    @media (max-width: 900px) {
+      .product-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">44g</div>
+        44g store
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="free-configs.html">Free</a></li>
+        <li><a href="index.html#features">Features</a></li>
+      </ul>
+      <a href="index.html#shop" class="nav-cta"><span>View Plans</span></a>
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <!-- Product Section -->
+  <section class="product-page">
+    <div class="product-container" id="product-container">
+      <div class="product-image-card">
+        <img id="product-image" src="https://via.placeholder.com/500x500.png/1a1a1a/f59e0b?text=44g+VPN" alt="44g VPN Plan">
+      </div>
+      <div class="product-details" id="product-details">
+        <!-- Product details will be loaded here by JavaScript -->
+        <h1 style="color: var(--text-secondary);">Loading Product...</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <span>© 2024 44g store. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Firebase Configuration -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoYwLz6AJRmXZ15e6T0pd13uLEl0Hgd28",
+    authDomain: "susara-5d073.firebaseapp.com",
+    databaseURL: "https://susara-5d073-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "susara-5d073",
+    storageBucket: "susara-5d073.firebasestorage.app",
+    messagingSenderId: "260387813251",
+    appId: "1:260387813251:web:e1cc7077c43a0b592728b6",
+    measurementId: "G-WQWGHL2WSY"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const db = firebase.database();
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id');
+
+    const productContainer = document.getElementById('product-container');
+    const productDetailsContainer = document.getElementById('product-details');
+
+    if (!productId) {
+      productDetailsContainer.innerHTML = '<h1 style="color: var(--text-secondary);">Product not found.</h1><p><a href="index.html#shop">Return to shop</a></p>';
+      return;
+    }
+
+    const productRef = db.ref('products/' + productId);
+    productRef.once('value', (snapshot) => {
+      const product = snapshot.val();
+
+      if (!product) {
+        productDetailsContainer.innerHTML = '<h1 style="color: var(--text-secondary);">Product not found.</h1><p><a href="index.html#shop">Return to shop</a></p>';
+        return;
+      }
+
+      // Update page title
+      document.title = `${product.name} - 44g store`;
+
+      // Update product image
+      if (product.imageUrl) {
+        document.getElementById('product-image').src = product.imageUrl;
+      }
+
+      const featuresHTML = product.features.map(feature => `<li>${feature}</li>`).join('');
+
+      const productDetailsHTML = `
+        <h1>${product.name} <span class="highlight">V2Ray Plan</span></h1>
+        <div class="product-price">LKR ${product.price.toLocaleString()} <span class="period">/ month</span></div>
+        <p class="product-description">${product.description}</p>
+        <ul class="product-features">
+          ${featuresHTML}
+        </ul>
+        <a href="checkout.html?id=${productId}" class="btn-primary" style="width: 100%; text-align: center; justify-content: center;">Proceed to Checkout →</a>
+      `;
+
+      productDetailsContainer.innerHTML = productDetailsHTML;
+
+    }).catch(error => {
+        console.error("Error fetching product details:", error);
+        productDetailsContainer.innerHTML = '<h1 style="color: var(--text-secondary);">Error loading product.</h1>';
+    });
+  });
+</script>
+<script>
+  // Mobile menu toggle
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  const navCta = document.querySelector('.nav-cta');
+
+  mobileMenuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    navCta.classList.toggle('active');
+  });
+</script>
+</body>
+</html>

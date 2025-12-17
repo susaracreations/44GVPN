@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - 44g store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="templatemo-606-string-master.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">44g</div>
+        44g store
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#shop">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="free-configs.html">Free</a></li>
+        <li><a href="index.html#features">Features</a></li>
+      </ul>
+      <a href="index.html#shop" class="nav-cta"><span>Shop Now</span></a>
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <!-- Contact Section -->
+  <section class="hero" style="padding-top: 8rem;">
+    <div class="section-container">
+        <div class="section-header">
+            <div class="section-label">Get In Touch</div>
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-description">
+              Have a question or need support? Fill out the form below and we'll get back to you as soon as possible.
+            </p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="pricing-card" style="padding: 2.5rem;">
+                <form id="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contact-name">Your Name</label>
+                            <input type="text" id="contact-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Your Email</label>
+                            <input type="email" id="contact-email" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" rows="5" required style="padding: 0.75rem; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 0.95rem; width: 100%; resize: vertical;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 2rem; justify-content: center;">Send Message</button>
+                    <p id="contact-form-status" style="text-align: center; margin-top: 1rem;"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <span>© 2024 44g store. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Firebase Configuration -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoYwLz6AJRmXZ15e6T0pd13uLEl0Hgd28",
+    authDomain: "susara-5d073.firebaseapp.com",
+    databaseURL: "https://susara-5d073-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "susara-5d073",
+    storageBucket: "susara-5d073.firebasestorage.app",
+    messagingSenderId: "260387813251",
+    appId: "1:260387813251:web:e1cc7077c43a0b592728b6",
+    measurementId: "G-WQWGHL2WSY"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const db = firebase.database();
+    const contactForm = document.getElementById('contact-form');
+    const statusEl = document.getElementById('contact-form-status');
+
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        const newMessage = {
+            name: document.getElementById('contact-name').value,
+            email: document.getElementById('contact-email').value,
+            message: document.getElementById('contact-message').value,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            isRead: false
+        };
+
+        db.ref('messages').push(newMessage)
+            .then(() => {
+                statusEl.textContent = "Message sent successfully! We'll get back to you soon.";
+                statusEl.style.color = '#22c55e';
+                contactForm.reset();
+            })
+            .catch((error) => {
+                console.error("Error sending message: ", error);
+                statusEl.textContent = "There was an error sending your message. Please try again.";
+                statusEl.style.color = '#ef4444';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            });
+    });
+});
+</script>
+
+<script src="templatemo-606-string-scripts.js"></script>
+
+</body>
+</html>
